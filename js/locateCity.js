@@ -1,3 +1,5 @@
+var generateMap = require("./../js/generateMap.js").generateMap;
+
 exports.locateCity = function(address) {
   var geocoder =  new google.maps.Geocoder();
   var latitude = 0;
@@ -12,4 +14,4 @@ exports.locateCity = function(address) {
       alert("Something got wrong " + status);
     }
   });
-}
+};

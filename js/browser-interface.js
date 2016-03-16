@@ -1,9 +1,11 @@
-var locateUser = require("./locateUser.js").locateUser;
-var locateCity = require("./locateCity.js").locateCity;
-var locateRestaurants = require("./locateRestaurants.js").locateRestaurants;
-var generateMap = require("./generateMap.js").generateMap;
+var locateUser = require("./../js/locateUser.js").locateUser;
+var locateCity = require("./../js/locateCity.js").locateCity;
+var locateRestaurants = require("./../js/locateRestaurants.js").locateRestaurants;
+var generateMap = require("./../js/generateMap.js").generateMap;
 
-$( document ).ready(function() {
+$(document).ready(function() {
+
+  locateUser();
 
   $('#locateUser').submit(function(event) {
     event.preventDefault();
@@ -15,7 +17,7 @@ $( document ).ready(function() {
     var address = $('#city_name').val();
     locateCity(address);
   });
-  
+
   // $('#restaurants').submit(function(event) {
   //   event.preventDefault();
   //   locateUser();

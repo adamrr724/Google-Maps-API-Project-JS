@@ -20,7 +20,7 @@ exports.generateMap = function(lat, long) {
     map: mapObject,
     position: userLatLng
   });
-}
+};
 
 function geolocationError(positionError) {
   alert(positionError);
