@@ -6,9 +6,11 @@ var initAutocomplete = require("./../js/initAutocomplete.js").initAutocomplete;
 
 $(document).ready(function() {
 
-  initAutocomplete();
+
+  locateUser();
 
   $('#locateUser').submit(function(event) {
+    console.log("locating user from form")
     event.preventDefault();
     locateUser();
   });

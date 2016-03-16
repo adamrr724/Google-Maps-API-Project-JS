@@ -1,10 +1,11 @@
-var generateMap = require("./../js/generateMap.js").generateMap;
+// var generateMap = require("./../js/generateMap.js").generateMap;
+var initAutocomplete = require("./../js/initAutocomplete.js").initAutocomplete;
 
 function generateCoordinates(position) {
   var latitude = position.coords.latitude;
   var longitude = position.coords.longitude;
   console.log("I am working!");
-  generateMap(latitude, longitude);
+  initAutocomplete(latitude, longitude);
 }
 
 function geolocationError() {
