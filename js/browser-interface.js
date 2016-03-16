@@ -1,39 +1,71 @@
+var locateUser = require("./locateUser.js").locateUser;
+var locateCity = require("./locateCity.js").locateCity;
+var locateRestaurants = require("./locateRestaurants.js").locateRestaurants;
+var generateMap = require("./generateMap").generateMap;
+
+
+
 $( document ).ready(function() {
-  // $('#locateUser').click(locateUser);
+  $('#locateUser').submit(function(event) {
+    event.preventDefault();
+    locateUser();
+  });
+  // $('#restaurants').submit(function(event) {
+  //   event.preventDefault();
+  //   locateUser();
+  // });
   $('#myForm').submit(function(event) {
     event.preventDefault();
     var address = $('#city_name').val();
-    locateRestaurant(address);
+    locateCity(address);
   });
 });
 
-//TAKE INPUT DUMMIE!
+// google maps functions
+function locateUser() {
+  // If the browser supports the Geolocation API
+  if (navigator.geolocation){
+    var positionOptions = {
+      enableHighAccuracy: true,
+      timeout: 10 * 1000 // 10 seconds
+    };
+    navigator.geolocation.getCurrentPosition(generateCoordinates, geolocationError, positionOptions);
+    function generateCoordinates(position) {
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+      generateMap(latitude, longitude);
+    }
+  }
+  else {
+    alert("Your browser doesn't support the Geolocation API");
+  }
+}
 
-
-//google maps functions
-// function locateUser() {
-//   // If the browser supports the Geolocation API
-//   if (navigator.geolocation){
-//     var positionOptions = {
-//       enableHighAccuracy: true,
-//       timeout: 10 * 1000 // 10 seconds
-//     };
-//     navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError, positionOptions);
-//   }
-//   else {
-//     alert("Your browser doesn't support the Geolocation API");
-//   }
-// }
-
-function locateRestaurant(address) {
+function locateCity(address) {
   var geocoder =  new google.maps.Geocoder();
   var latitude = 0;
   var longitude = 0;
   geocoder.geocode( { 'address': address }, function(results, status) {
+    console.log(results);
     if (status == google.maps.GeocoderStatus.OK) {
       latitude = results[0].geometry.location.lat();
       longitude = results[0].geometry.location.lng();
-      geolocationSuccess(latitude, longitude);
+      generateMap(latitude, longitude);
+    } else {
+      alert("Something got wrong " + status);
+    }
+  });
+}
+
+function locateRestaurants() {
+  var places =  new google.maps.places();
+  var latitude = 0;
+  var longitude = 0;
+  places.TextSearchRequest( { 'query': 'restaurants' }, function(results, status) {
+    if (status == google.maps.PlacesStatus.OK) {
+      latitude = results[0].geometry.location.lat();
+      longitude = results[0].geometry.location.lng();
+      generateMap(latitude, longitude);
     } else {
       alert("Something got wrong " + status);
     }
@@ -42,11 +74,11 @@ function locateRestaurant(address) {
 
 // this is the success callback from telling the navigator (your browser) to get the current user's position
 // we do this on line 13 above. We pass in a function to call on success, a function to call on error, and some options to tell the geolocation api how we want it to run.
-// on successfully locating the user, geolocationSuccess() gets called automatically, and it is passed the user's position as an argument.
+// on successfully locating the user, generateMap() gets called automatically, and it is passed the user's position as an argument.
 // on error, geolocationError is called.
 
 
-function geolocationSuccess(lat, long) {
+function generateMap(lat, long) {
   // here we take the `position` object returned by the geolocation api
   // and turn it into google maps LatLng object by calling the google.maps.LatLng constructor function
   // it 2 arguments: one for latitude, one for longitude.
