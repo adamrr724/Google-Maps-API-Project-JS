@@ -1,7 +1,14 @@
 $( document ).ready(function() {
   // $('#locateUser').click(locateUser);
-  $('#myForm').submit(locateRestaurant())
+  $('#myForm').submit(function(event) {
+    event.preventDefault();
+    var address = $('#city_name').val();
+    locateRestaurant(address);
+  });
 });
+
+//TAKE INPUT DUMMIE!
+
 
 //google maps functions
 // function locateUser() {
@@ -23,14 +30,14 @@ function locateRestaurant(address) {
   var latitude = 0;
   var longitude = 0;
   geocoder.geocode( { 'address': address }, function(results, status) {
-  if (status == google.maps.GeocoderStatus.OK) {
-    latitude = results[0].geometry.location.lat();
-    longitude = results[0].geometry.location.lng();
-  } else {
-    alert("Something got wrong " + status);
-  }
+    if (status == google.maps.GeocoderStatus.OK) {
+      latitude = results[0].geometry.location.lat();
+      longitude = results[0].geometry.location.lng();
+      geolocationSuccess(latitude, longitude);
+    } else {
+      alert("Something got wrong " + status);
+    }
   });
-  geolocationSuccess(latitude, longitude);
 }
 
 // this is the success callback from telling the navigator (your browser) to get the current user's position
@@ -45,10 +52,12 @@ function geolocationSuccess(lat, long) {
   // it 2 arguments: one for latitude, one for longitude.
   // You could refactor this section to pass google maps your own coordinates rather than using geolocation for the user's current location.
   // But you must use coordinates to use this method.
+  console.log(lat);
+  console.log(long);
   var userLatLng = new google.maps.LatLng(lat, long);
 
   var myOptions = {
-    zoom : 16,
+    zoom : 10,
     center : userLatLng,
     mapTypeId : google.maps.MapTypeId.ROADMAP
   };
