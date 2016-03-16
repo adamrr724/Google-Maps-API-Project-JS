@@ -2,10 +2,11 @@ var locateUser = require("./../js/locateUser.js").locateUser;
 var locateCity = require("./../js/locateCity.js").locateCity;
 var locateRestaurants = require("./../js/locateRestaurants.js").locateRestaurants;
 var generateMap = require("./../js/generateMap.js").generateMap;
+var initAutocomplete = require("./../js/initAutocomplete.js").initAutocomplete;
 
 $(document).ready(function() {
 
-  locateUser();
+  initAutocomplete();
 
   $('#locateUser').submit(function(event) {
     event.preventDefault();
