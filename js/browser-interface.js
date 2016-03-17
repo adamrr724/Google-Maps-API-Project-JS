@@ -11,7 +11,7 @@ $(document).ready(function() {
 
   $('#locateUser').submit(function(event) {
     event.preventDefault();
-    console.log("locating user from form")
+    console.log("locating user from form");
     $('#map').empty();
     //input field must be reinstantiated here, or else it the search bar will not show when a new map is created.
     $('#locateUser').prepend('<input id="pac-input" class="controls" type="text" placeholder="Search Box">');

@@ -1,8 +1,8 @@
 exports.initAutocomplete = function(lat, long) {
   var map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: lat, lng: long},
-    zoom: 13,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+    zoom: 9,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
   });
 
   // Create the search box and link it to the UI element.
@@ -20,7 +20,6 @@ exports.initAutocomplete = function(lat, long) {
   // more details for that place.
   searchBox.addListener('places_changed', function() {
     var places = searchBox.getPlaces();
-
     if (places.length === 0) {
       return;
     }
@@ -33,6 +32,7 @@ exports.initAutocomplete = function(lat, long) {
 
     // For each place, get the icon, name and location.
     var bounds = new google.maps.LatLngBounds();
+
     places.forEach(function(place) {
       var icon = {
         url: place.icon,
@@ -47,8 +47,20 @@ exports.initAutocomplete = function(lat, long) {
         map: map,
         icon: icon,
         title: place.name,
-        position: place.geometry.location
+        position: place.geometry.location,
+
+        //added to save google markers
+        place: {
+          location: {lat: lat, lng: long},
+          query: place
+        },
+        // Attributions help users find your site again.
+        attribution: {
+          source: 'Google Maps JavaScript API',
+          webUrl: 'https://developers.google.com/maps/'
+        },
       }));
+
 
       if (place.geometry.viewport) {
         // Only geocodes have viewport.
@@ -56,8 +68,23 @@ exports.initAutocomplete = function(lat, long) {
       } else {
         bounds.extend(place.geometry.location);
       }
+
+      markers.forEach(function(marker) {
+        //Construct a new InfoWindow
+        var infoWindow = new google.maps.InfoWindow({
+          content: place.formatted_address
+        });
+
+        // Opens the InfoWindow when marker is clicked.
+        marker.addListener('click', function() {
+          infoWindow.open(map, marker);
+        });
+      });
+
     });
     map.fitBounds(bounds);
     // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    //
+
   });
 };
