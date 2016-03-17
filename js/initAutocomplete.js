@@ -20,10 +20,10 @@ exports.initAutocomplete = function(lat, long) {
   // more details for that place.
   searchBox.addListener('places_changed', function() {
     var places = searchBox.getPlaces();
-    if (places.length === 0) {
+
+    if (places.length == 0) {
       return;
     }
-
     // Clear out the old markers.
     markers.forEach(function(marker) {
       marker.setMap(null);
@@ -42,6 +42,7 @@ exports.initAutocomplete = function(lat, long) {
         scaledSize: new google.maps.Size(25, 25)
       };
 
+
       // Create a marker for each place.
       var marker = undefined;
       marker = new google.maps.Marker({
@@ -52,16 +53,18 @@ exports.initAutocomplete = function(lat, long) {
         position: place.geometry.location,
 
         //added to save google markers
-        place: {
-          location: {lat: lat, lng: long},
-          query: place
-        },
+        // place: {
+        //   location: {lat: lat, lng: long},
+        //   query: place
+        // },
+
         // Attributions help users find your site again.
         attribution: {
           source: 'Google Maps JavaScript API',
           webUrl: 'https://developers.google.com/maps/'
         },
       });
+
 
       var contentString = '<div id="content">'+
       '<div id="siteNotice">'+
@@ -81,7 +84,6 @@ exports.initAutocomplete = function(lat, long) {
       // Opens the InfoWindow when marker is clicked.
       marker.addListener('click', function() {
         infoWindow.open(map, marker);
-        console.log("Success!");
       });
 
       markers.push(marker);

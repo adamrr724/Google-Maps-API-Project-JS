@@ -4,7 +4,6 @@ var initAutocomplete = require("./../js/initAutocomplete.js").initAutocomplete;
 function generateCoordinates(position) {
   var latitude = position.coords.latitude;
   var longitude = position.coords.longitude;
-  console.log("I am working!");
   initAutocomplete(latitude, longitude);
 }
 
