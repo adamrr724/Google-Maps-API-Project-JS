@@ -1,9 +1,15 @@
+var directionsDisplay;
+var directionsService = new google.maps.DirectionsService();
+
+
 exports.initAutocomplete = function(lat, long) {
+  directionsDisplay = new google.maps.DirectionsRenderer();
   var map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: lat, lng: long},
     zoom: 9,
     mapTypeId: google.maps.MapTypeId.ROADMAP,
   });
+  directionsDisplay.setMap(map);
 
   // Create the search box and link it to the UI element.
   var input = document.getElementById('pac-input');
@@ -65,20 +71,19 @@ exports.initAutocomplete = function(lat, long) {
         },
       });
 
-
+      //content for marker info window
       var contentString = '<div id="content">'+
       '<div id="siteNotice">'+
       '</div>'+
       '<h1 id="firstHeading" class="firstHeading">' + place.name +'</h1>'+
       '<div id="bodyContent">'+
       '<p>' + place.formatted_address +'</p>';
-
+      //shows existing place rating
       if (place.rating !== undefined) {
         contentString += '<p>Rating:' + place.rating + '</p></div></div>';
       } else {
         contentString += '</div></div>';
       }
-
       //Construct a new InfoWindow
       var infoWindow = new google.maps.InfoWindow({
         content: contentString
@@ -87,9 +92,8 @@ exports.initAutocomplete = function(lat, long) {
       marker.addListener('click', function() {
         infoWindow.open(map, marker);
       });
-
+      //push new marker to array of all markers
       markers.push(marker);
-
 
       if (place.geometry.viewport) {
         // Only geocodes have viewport.
@@ -98,22 +102,24 @@ exports.initAutocomplete = function(lat, long) {
         bounds.extend(place.geometry.location);
       }
 
-
-
-      // markers.forEach(function(marker) {
-      //   //Construct a new InfoWindow
-      //
-      //
-      //   // Opens the InfoWindow when marker is clicked.
-      //
-      //
-      // });
-
-
     });
     map.fitBounds(bounds);
-    // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-    //
 
+  });
+};
+
+exports.calcRoute = function() {
+  var start = document.getElementById("start").value;
+  var end = document.getElementById("end").value;
+
+  var request = {
+    origin:start,
+    destination:end,
+    travelMode: google.maps.TravelMode.DRIVING
+  };
+  directionsService.route(request, function(result, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(result);
+    }
   });
 };
