@@ -2,7 +2,7 @@ var directionsDisplay;
 var directionsService = new google.maps.DirectionsService();
 
 
-exports.initAutocomplete = function(lat, long) {
+exports.initialize = function(lat, long) {
   directionsDisplay = new google.maps.DirectionsRenderer();
   var map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: lat, lng: long},

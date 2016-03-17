@@ -1,5 +1,5 @@
 // var generateMap = require("./../js/generateMap.js").generateMap;
-var initAutocomplete = require("./../js/initAutocomplete.js").initAutocomplete;
+var initialize = require("./../js/initialize.js").initialize;
 
 exports.locateCity = function(address) {
   var geocoder =  new google.maps.Geocoder();
@@ -9,7 +9,7 @@ exports.locateCity = function(address) {
     if (status == google.maps.GeocoderStatus.OK) {
       latitude = results[0].geometry.location.lat();
       longitude = results[0].geometry.location.lng();
-      initAutocomplete(latitude, longitude);
+      initialize(latitude, longitude);
     } else {
       alert("Something got wrong " + status);
     }
