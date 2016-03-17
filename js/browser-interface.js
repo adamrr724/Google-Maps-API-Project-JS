@@ -3,11 +3,13 @@ var locateCity = require("./../js/locateCity.js").locateCity;
 var locateRestaurants = require("./../js/locateRestaurants.js").locateRestaurants;
 var generateMap = require("./../js/generateMap.js").generateMap;
 var initAutocomplete = require("./../js/initAutocomplete.js").initAutocomplete;
+var calcRoute = require("./../js/directions.js").calcRoute;
+var initialize = require("./../js/directions.js").initialize;
 
 $(document).ready(function() {
 
-
-  locateUser();
+  // locateUser();
+  initialize();
 
   $('#locateUser').submit(function(event) {
     event.preventDefault();
@@ -27,9 +29,10 @@ $(document).ready(function() {
     locateCity(address);
   });
 
-  // $('#restaurants').submit(function(event) {
-  //   event.preventDefault();
-  //   locateUser();
-  // });
+  $('#directions').submit(function(event) {
+    event.preventDefault();
+    calcRoute();
+
+  });
 
 });

@@ -21,7 +21,7 @@ exports.initAutocomplete = function(lat, long) {
   searchBox.addListener('places_changed', function() {
     var places = searchBox.getPlaces();
 
-    if (places.length == 0) {
+    if (places.length === 0) {
       return;
     }
     // Clear out the old markers.
@@ -44,7 +44,7 @@ exports.initAutocomplete = function(lat, long) {
 
 
       // Create a marker for each place.
-      var marker = undefined;
+      var marker;
       marker = new google.maps.Marker({
         map: map,
         icon: icon,
@@ -71,11 +71,13 @@ exports.initAutocomplete = function(lat, long) {
       '</div>'+
       '<h1 id="firstHeading" class="firstHeading">' + place.name +'</h1>'+
       '<div id="bodyContent">'+
-      '<p>' + place.formatted_address +'</p> '+
-      // '<p>Is it open now? ' + place.opening_hours.open_now +'</p> '+
-      '<p>Rating:' + place.rating +
-      '</p></div>'+
-      '</div>';
+      '<p>' + place.formatted_address +'</p>';
+
+      if (place.rating !== undefined) {
+        contentString += '<p>Rating:' + place.rating + '</p></div></div>';
+      } else {
+        contentString += '</div></div>';
+      }
 
       //Construct a new InfoWindow
       var infoWindow = new google.maps.InfoWindow({

@@ -10,10 +10,9 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/moment/min/moment.min.js"></script>
-    <!-- <script src="https://maps.googleapis.com/maps/api/js?"></script> -->
+    <script src="https://maps.googleapis.com/maps/api/js?&libraries=places"></script>
     <script type="text/javascript" src="build/js/app.js"></script>
     <link rel="stylesheet" href="build/css/styles.css">
-    <script src="https://maps.googleapis.com/maps/api/js?&libraries=places"></script>
 
     <title>Google Maps / RESTAURANTS maybe</title>
   </head>
@@ -34,7 +33,14 @@
 
       <input id="pac-input" class="controls" type="text" placeholder="Search Box">
       <div id="map"></div>
-
+<br>
+      <form id="directions">
+        <label for="start">Start Location:</label>
+        <input type="text" id="start" name="start">
+        <label for="end">End Location:</label>
+        <input type="text" id="end" name="end">
+        <button type="submit">Directions</button>
+      </form>
     </div>
-  </body>
+</body>
 </html>
