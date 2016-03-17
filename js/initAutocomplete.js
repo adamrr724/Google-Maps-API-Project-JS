@@ -43,9 +43,11 @@ exports.initAutocomplete = function(lat, long) {
       };
 
       // Create a marker for each place.
-      markers.push(new google.maps.Marker({
+      var marker = undefined;
+      marker = new google.maps.Marker({
         map: map,
         icon: icon,
+        animation: google.maps.Animation.DROP,
         title: place.name,
         position: place.geometry.location,
 
@@ -59,7 +61,30 @@ exports.initAutocomplete = function(lat, long) {
           source: 'Google Maps JavaScript API',
           webUrl: 'https://developers.google.com/maps/'
         },
-      }));
+      });
+
+      var contentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">' + place.name +'</h1>'+
+      '<div id="bodyContent">'+
+      '<p>' + place.formatted_address +'</p> '+
+      // '<p>Is it open now? ' + place.opening_hours.open_now +'</p> '+
+      '<p>Rating:' + place.rating +
+      '</p></div>'+
+      '</div>';
+
+      //Construct a new InfoWindow
+      var infoWindow = new google.maps.InfoWindow({
+        content: contentString
+      });
+      // Opens the InfoWindow when marker is clicked.
+      marker.addListener('click', function() {
+        infoWindow.open(map, marker);
+        console.log("Success!");
+      });
+
+      markers.push(marker);
 
 
       if (place.geometry.viewport) {
@@ -69,17 +94,17 @@ exports.initAutocomplete = function(lat, long) {
         bounds.extend(place.geometry.location);
       }
 
-      markers.forEach(function(marker) {
-        //Construct a new InfoWindow
-        var infoWindow = new google.maps.InfoWindow({
-          content: place.formatted_address
-        });
 
-        // Opens the InfoWindow when marker is clicked.
-        marker.addListener('click', function() {
-          infoWindow.open(map, marker);
-        });
-      });
+
+      // markers.forEach(function(marker) {
+      //   //Construct a new InfoWindow
+      //
+      //
+      //   // Opens the InfoWindow when marker is clicked.
+      //
+      //
+      // });
+
 
     });
     map.fitBounds(bounds);
